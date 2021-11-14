@@ -5,6 +5,10 @@ import { AppComponent } from './app.component';
 import { SimpleHeaderComponent } from './components/simple-header/simple-header.component';
 import { TodoComponent } from './components/todo/todo.component';
 import { TodoListComponent } from './components/todo-list/todo-list.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+import { MaterialModule } from 'src/material.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +18,10 @@ import { TodoListComponent } from './components/todo-list/todo-list.component';
     TodoListComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]
