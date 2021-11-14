@@ -7,6 +7,7 @@ import { TodoComponent } from './components/todo/todo.component';
 import { TodoListComponent } from './components/todo-list/todo-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { FormsModule } from '@angular/forms';
 
 import { MaterialModule } from 'src/material.module';
 
@@ -18,6 +19,7 @@ import { MaterialModule } from 'src/material.module';
     TodoListComponent
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
