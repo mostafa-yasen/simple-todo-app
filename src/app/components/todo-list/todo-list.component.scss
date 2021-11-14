@@ -1,0 +1,22 @@
+.container {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+}
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    color: #5d5d5d;
+    font-size: 1.8em;
+    .icon {
+        margin-bottom: 50px;
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        font-size: 64px;
+    }
+}

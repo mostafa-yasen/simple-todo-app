@@ -13,6 +13,10 @@ export class TodoListComponent implements OnInit {
     this.todos = []
   }
 
+  newItemEvent(newItem:Todo):void {
+    this.todos.push(newItem)
+  }
+
   ngOnInit(): void {
     this.todos.push({
       _id: "000000001",

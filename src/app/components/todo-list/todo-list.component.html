@@ -1,3 +1,10 @@
-<mat-list>
+<mat-list class="container">
+    <app-todo-input (newItem)="newItemEvent($event)"></app-todo-input>
+    <mat-divider></mat-divider>
     <app-todo (delete)="deleteItem($event)" *ngFor="let todo of todos" [todo]=todo></app-todo>
+
+    <div class="emptyState" *ngIf="!todos.length">
+        <mat-icon color="accent" class="icon">check_circle_outline</mat-icon>
+        Hooray! all is done. Go take some rest.
+    </div>
 </mat-list>
