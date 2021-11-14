@@ -10,13 +10,15 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
 
 import { MaterialModule } from 'src/material.module';
+import { TodoInputComponent } from './components/todo-input/todo-input.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SimpleHeaderComponent,
     TodoComponent,
-    TodoListComponent
+    TodoListComponent,
+    TodoInputComponent
   ],
   imports: [
     FormsModule,
