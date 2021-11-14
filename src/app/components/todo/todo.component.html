@@ -8,7 +8,7 @@
             {{ todo.title.substring(0, 50) }} <a mat-button href="#" *ngIf="todo.title.length > 50">more..</a>
         </p>
     </mat-checkbox>
-    <button mat-icon-button>
+    <button mat-icon-button (click)="_delete(todo._id)">
         <mat-icon color="primary">delete</mat-icon>
     </button>
 </mat-list-item>
