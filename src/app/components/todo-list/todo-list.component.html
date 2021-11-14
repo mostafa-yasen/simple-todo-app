@@ -1,1 +1,6 @@
-<p>todo-list works!</p>
+<app-todo 
+    *ngFor="let todo of todos"
+    [title]=todo.title
+    [created]=todo.created.toLocaleString()
+    [done]=todo.done
+></app-todo>
