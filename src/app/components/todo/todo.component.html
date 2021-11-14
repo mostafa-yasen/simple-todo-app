@@ -1,3 +1,14 @@
-<p>{{ title }}</p>
-<p>{{ created }}</p>
-<p>{{ done }}</p>
+<mat-list-item class="todo-item">
+    <mat-checkbox
+        class="title"
+        [(ngModel)]="todo.done"
+        [matTooltip]="todo.created.toLocaleString()"
+        >
+        <p class="text" [ngClass]="{'strike': todo.done === true}">
+            {{ todo.title.substring(0, 50) }} <a mat-button href="#" *ngIf="todo.title.length > 50">more..</a>
+        </p>
+    </mat-checkbox>
+    <button mat-icon-button>
+        <mat-icon color="primary">delete</mat-icon>
+    </button>
+</mat-list-item>

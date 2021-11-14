@@ -1,0 +1,30 @@
+.todo-item {
+    background-color: #eee;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px;
+    margin: 5px auto;
+    .done, .remove {
+        border: none;
+        cursor: pointer;
+        padding-right: 10px;
+    }
+    .title {
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+        padding: 10px 0;
+        .text {
+            color: #525252;
+            &.strike {
+                text-decoration: line-through;
+            }
+        }
+        .created {
+            color: #bbb;
+        }
+    }
+}

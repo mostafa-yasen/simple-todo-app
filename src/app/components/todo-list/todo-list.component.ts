@@ -7,9 +7,11 @@ import { Todo } from 'src/app/models/todo.model';
   styleUrls: ['./todo-list.component.scss']
 })
 export class TodoListComponent implements OnInit {
-  todos:Todo[] = []
+  todos:Todo[];
 
-  constructor() { }
+  constructor() {
+    this.todos = []
+  }
 
   ngOnInit(): void {
     this.todos.push({
