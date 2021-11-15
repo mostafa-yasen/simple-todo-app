@@ -16,9 +16,31 @@ export class TodoListComponent implements OnInit {
     this.baseUrl = "http://localhost:9090/api/v1"
   }
 
-  newItemEvent(newItem:Todo):void {
-    // TODO: consume create item API
-    this.todos.push(newItem)
+  async newItemEvent(newItem:Todo): Promise<void> {
+    this.isLoading = true
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var body = JSON.stringify(newItem);
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: body
+    };
+
+    let res = await fetch(this.baseUrl + "/todos", requestOptions)
+      .then(response => response.json())
+      .catch(error => {
+        this.isLoading = false
+        console.error('error', error)
+      });
+
+    if (res.code != 201) {
+      this.isLoading = false
+      return console.error(res)
+    }
+    this.isLoading = false
+    this.todos.push(res.data)
   }
 
   async ngOnInit(): Promise<void> {
@@ -45,7 +67,11 @@ export class TodoListComponent implements OnInit {
     };
 
     let res = await fetch(`${this.baseUrl}/todos/${_id}`, requestOptions)
-      .then(response => response.json());
+      .then(response => response.json())
+      .catch(err => {
+        this.isLoading = false
+        console.error(err);
+      })
 
     if (res.code != 200) {
       this.isLoading = false
