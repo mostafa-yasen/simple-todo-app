@@ -3,6 +3,7 @@
         class="title"
         [(ngModel)]="todo.done"
         [matTooltip]="todo.created.toLocaleString()"
+        (change)=(_edit(todo))
         >
         <p class="text" [ngClass]="{'strike': todo.done === true}">
             {{ todo.title.substring(0, 50) }} <a mat-button href="#" *ngIf="todo.title.length > 50">more..</a>

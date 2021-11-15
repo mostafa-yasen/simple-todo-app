@@ -2,7 +2,12 @@
     <app-todo-input (newItem)="newItemEvent($event)"></app-todo-input>
     <mat-progress-bar *ngIf="isLoading === true" color="accent" mode="query"></mat-progress-bar>
     <mat-divider></mat-divider>
-    <app-todo (delete)="deleteItem($event)" *ngFor="let todo of todos" [todo]=todo></app-todo>
+    <app-todo
+        *ngFor="let todo of todos"
+        [todo]=todo
+        (edit)="editItem($event)"
+        (delete)="deleteItem($event)"
+    ></app-todo>
 
     <div class="emptyState" *ngIf="!todos.length">
         <mat-icon color="accent" class="icon">check_circle_outline</mat-icon>

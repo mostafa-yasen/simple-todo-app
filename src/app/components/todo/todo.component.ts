@@ -10,9 +10,15 @@ import { EventEmitter } from '@angular/core';
 export class TodoComponent implements OnInit {
   @Input() todo!: Todo;
   @Output() delete:EventEmitter<string>
+  @Output() edit:EventEmitter<Todo>
 
   constructor() {
     this.delete = new EventEmitter()
+    this.edit = new EventEmitter()
+  }
+
+  _edit(item:Todo) {
+    this.edit.emit(item)
   }
 
   _delete(itemId:string) {

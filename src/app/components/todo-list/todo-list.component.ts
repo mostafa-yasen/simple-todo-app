@@ -16,6 +16,33 @@ export class TodoListComponent implements OnInit {
     this.baseUrl = "http://localhost:9090/api/v1"
   }
 
+  async editItem(todoItem:Todo): Promise<void> {
+    this.isLoading = true
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var body = JSON.stringify(todoItem);
+
+    var requestOptions = {
+      method: 'PATCH',
+      headers: myHeaders,
+      body: body
+    };
+
+    let route = `/todos/${todoItem._id}`
+    let res = await fetch(this.baseUrl + route, requestOptions)
+      .then(response => response.json())
+      .catch(error => {
+        this.isLoading = false
+        console.log('error', error);
+      });
+
+      if (res.code != 200) {
+        return console.error(res)
+      }
+      this.isLoading = false
+  }
+
   async newItemEvent(newItem:Todo): Promise<void> {
     this.isLoading = true
 
