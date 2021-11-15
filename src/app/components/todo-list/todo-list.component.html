@@ -1,5 +1,6 @@
 <mat-list class="container">
     <app-todo-input (newItem)="newItemEvent($event)"></app-todo-input>
+    <mat-progress-bar *ngIf="isLoading === true" color="accent" mode="query"></mat-progress-bar>
     <mat-divider></mat-divider>
     <app-todo (delete)="deleteItem($event)" *ngFor="let todo of todos" [todo]=todo></app-todo>
 

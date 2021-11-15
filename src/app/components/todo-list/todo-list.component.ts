@@ -8,32 +8,52 @@ import { Todo } from 'src/app/models/todo.model';
 })
 export class TodoListComponent implements OnInit {
   todos:Todo[];
+  baseUrl: string;
+  isLoading:boolean = false
 
   constructor() {
     this.todos = []
+    this.baseUrl = "http://localhost:9090/api/v1"
   }
 
   newItemEvent(newItem:Todo):void {
+    // TODO: consume create item API
     this.todos.push(newItem)
   }
 
-  ngOnInit(): void {
-    this.todos.push({
-      _id: "000000001",
-      title: "Study Hard",
-      done: false,
-      created: new Date()
-    })
-    this.todos.push({
-      _id: "000000002",
-      title: "Connect to database ASAP",
-      done: false,
-      created: new Date()
-    })
+  async ngOnInit(): Promise<void> {
+    await this.getAllItems()
   }
 
-  deleteItem(_id:string):void {
+  private async getAllItems() {
+    this.isLoading = true
+    let route = "/todos"
+    let res = await fetch(this.baseUrl + route).then(response => response.json())
+    if (res.code != 200) {
+    this.isLoading = false
+      return console.error(res)
+    }
+    this.todos = res.data
+    this.isLoading = false
+  }
+
+  async deleteItem(_id:string): Promise<void> {
+    this.isLoading = true
+
+    var requestOptions = {
+      method: 'DELETE'
+    };
+
+    let res = await fetch(`${this.baseUrl}/todos/${_id}`, requestOptions)
+      .then(response => response.json());
+
+    if (res.code != 200) {
+      this.isLoading = false
+      return console.error(res)
+    }
+
     this.todos = this.todos.filter(todo => todo._id != _id );
+    this.isLoading = false
   }
 
 }

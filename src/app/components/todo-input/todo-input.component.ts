@@ -16,7 +16,7 @@ export class TodoInputComponent implements OnInit {
 
   _addItem(event: Event):void {
     if (!this.value) return
-    let item = new Todo("", this.value, false, new Date())
+    let item = new Todo("", this.value, false, new Date(), 0)
     this.newItem.emit(item)
     this.value = ""
   }
