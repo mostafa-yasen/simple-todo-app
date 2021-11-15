@@ -3,6 +3,7 @@
         (newItem)="newItemEvent($event)"
     ></app-todo-input>
     <button
+        *ngIf="todos.length > 0"
         class="ml-auto d-inline-block"
         mat-button
         [color]="hideDone? 'accent' : ''"
