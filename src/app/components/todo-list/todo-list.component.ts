@@ -9,7 +9,8 @@ import { Todo } from 'src/app/models/todo.model';
 export class TodoListComponent implements OnInit {
   todos:Todo[];
   baseUrl: string;
-  isLoading:boolean = false
+  isLoading:boolean = false;
+  hideDone:boolean = false;
 
   constructor() {
     this.todos = []

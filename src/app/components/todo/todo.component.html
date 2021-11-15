@@ -1,4 +1,4 @@
-<mat-list-item class="todo-item">
+<mat-list-item class="todo-item" *ngIf="!(hideDone && todo.done)">
     <mat-checkbox
         class="title"
         [(ngModel)]="todo.done"
