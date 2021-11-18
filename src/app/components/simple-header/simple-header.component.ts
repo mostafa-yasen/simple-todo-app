@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./simple-header.component.scss']
 })
 export class SimpleHeaderComponent implements OnInit {
-  title: string = "Simple TODO App"
+  title: string = "Simple Todo"
   constructor() { }
 
   ngOnInit(): void {

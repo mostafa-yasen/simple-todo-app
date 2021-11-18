@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Todo } from 'src/app/models/todo.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-todo-list',
@@ -11,8 +12,11 @@ export class TodoListComponent implements OnInit {
   baseUrl: string;
   isLoading:boolean = false;
   hideDone:boolean = false;
+  snackBarOptions = {
+    duration: 3000
+  }
 
-  constructor() {
+  constructor(private _snackBar: MatSnackBar) {
     this.todos = []
     this.baseUrl = "http://localhost:9090/api/v1"
   }
@@ -35,10 +39,11 @@ export class TodoListComponent implements OnInit {
       .then(response => response.json())
       .catch(error => {
         this.isLoading = false
-        console.log('error', error);
+        this._snackBar.open(error, 'Dismiss');
       });
 
       if (res.code != 200) {
+        this._snackBar.open(res.message, 'Dismiss');
         return console.error(res)
       }
       this.isLoading = false
@@ -65,7 +70,7 @@ export class TodoListComponent implements OnInit {
 
     if (res.code != 201) {
       this.isLoading = false
-      return console.error(res)
+      this._snackBar.open(res.message, 'Dismiss');
     }
     this.isLoading = false
     this.todos.push(res.data)
@@ -78,9 +83,15 @@ export class TodoListComponent implements OnInit {
   private async getAllItems() {
     this.isLoading = true
     let route = "/todos"
-    let res = await fetch(this.baseUrl + route).then(response => response.json())
+    let res = await fetch(this.baseUrl + route)
+      .then(response => response.json())
+      .catch(error => {
+        this._snackBar.open(error, 'Dismiss');
+      })
+
     if (res.code != 200) {
-    this.isLoading = false
+      this.isLoading = false
+      this._snackBar.open(res.message, 'Dismiss', this.snackBarOptions);
       return console.error(res)
     }
     this.todos = res.data
@@ -98,16 +109,16 @@ export class TodoListComponent implements OnInit {
       .then(response => response.json())
       .catch(err => {
         this.isLoading = false
-        console.error(err);
+        this._snackBar.open(err, 'Dismiss');
       })
 
     if (res.code != 200) {
       this.isLoading = false
-      return console.error(res)
+      this._snackBar.open(res.message, 'Dismiss');
+      return
     }
 
     this.todos = this.todos.filter(todo => todo._id != _id );
     this.isLoading = false
   }
-
 }

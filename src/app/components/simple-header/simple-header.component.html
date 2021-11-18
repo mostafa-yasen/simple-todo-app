@@ -1,5 +1,16 @@
 <header class="simple-header">
-    <mat-toolbar color="accent">
-        <span>{{ title }}</span>
+    <mat-toolbar color="accent" class="toolbar">
+        <a href="#" mat-button>
+            <h1>{{ title }}</h1>
+        </a>
+        <p>
+            <a mat-button>
+                Register
+            </a>
+            <a mat-button>
+                Login
+                <mat-icon>login</mat-icon>
+            </a>
+        </p>
     </mat-toolbar>
 </header>
