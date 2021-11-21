@@ -1,1 +1,105 @@
-<p>identity works!</p>
+    <mat-tab-group class="identityTabs" [(selectedIndex)]="tabIndex">
+        <mat-tab label="Login">
+            <!-- LOGIN FORM -->
+            <form class="loginForm">
+                <!-- Login Email -->
+                <mat-form-field class="full-width form-field loginEmail" appearance="fill">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="Ex. someone@example.com" [formControl]="loginEmail">
+                    <mat-error
+                        *ngIf="loginEmail.invalid && (loginEmail.dirty || loginEmail.touched)"
+                        class="alert alert-danger"
+                    >
+                        <mat-error *ngIf="loginEmail.errors?.['required']">
+                            Email is required.
+                        </mat-error>
+                        <mat-error *ngIf="loginEmail.errors?.['email']">
+                            Please Enter a valid email address.
+                    </mat-error>
+                </mat-error>
+                </mat-form-field>
+
+                <!-- Login Password -->
+                <mat-form-field class="full-width form-field loginPassword" appearance="fill" >
+                    <mat-label>Password</mat-label>
+                    <input type="password" matInput placeholder="Ex. A really hard password" [formControl]="loginPassword">
+                    <mat-error *ngIf="loginPassword.invalid && (loginPassword.dirty || loginPassword.touched)" class="alert alert-danger">
+                        <mat-error *ngIf="loginPassword.errors?.['required']">
+                            Password is required.
+                        </mat-error>
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Login Button -->
+                <button mat-raised-button color="accent" class="ml-auto" (click)="login()">Login</button>
+            </form>
+        </mat-tab>
+        <mat-tab label="Register">
+            <!-- REGISTER FORM -->
+            <form class="registerForm">
+                <!-- Rregister Email -->
+                <mat-form-field class="full-width form-field registerEmail" appearance="fill">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="Ex. someone@example.com" [formControl]="registerEmail">
+                    <mat-error
+                        *ngIf="registerEmail.invalid && (registerEmail.dirty || registerEmail.touched)"
+                        class="alert alert-danger"
+                    >
+                        <mat-error *ngIf="registerEmail.errors?.['required']">
+                            Email is required.
+                        </mat-error>
+                        <mat-error *ngIf="registerEmail.errors?.['email']">
+                            Please Enter a valid email address.
+                        </mat-error>
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Register Full Name -->
+                <mat-form-field class="full-width form-field registerFullName" appearance="fill" >
+                    <mat-label>Full Name</mat-label>
+                    <input type="text" matInput placeholder="Ex. Jone Doe" [formControl]="registerFullName">
+                    <mat-error *ngIf="registerFullName.invalid && (registerFullName.dirty || registerFullName.touched)" class="alert alert-danger">
+                        <mat-error *ngIf="registerFullName.errors?.['required']">
+                            Full name is required.
+                        </mat-error>
+                        <mat-error *ngIf="registerFullName.errors?.['minlength']">
+                            Minimum length is 4.
+                        </mat-error>
+                        <mat-error *ngIf="registerFullName.errors?.['maxlength']">
+                            Maximum length is 30.
+                        </mat-error>
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Register Password -->
+                <mat-form-field class="full-width form-field registerPassword" appearance="fill" >
+                    <mat-label>Password</mat-label>
+                    <input type="password" matInput placeholder="Ex. A really hard password" [formControl]="registerPassword">
+
+                    <mat-error *ngIf="registerPassword.invalid && (registerPassword.dirty || registerPassword.touched)" class="alert alert-danger">
+                        <mat-error *ngIf="registerPassword.errors?.['required']">
+                            Password is required.
+                        </mat-error>
+                        <mat-error *ngIf="registerPassword.errors?.['minlength']">
+                            Minimum length is 8.
+                        </mat-error>
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Register Re Password -->
+                <mat-form-field class="full-width form-field registerPassword" appearance="fill" >
+                    <mat-label>Enter Password Again</mat-label>
+                    <input type="password" matInput placeholder="Ex. A really hard password" [formControl]="registerRePassword">
+
+                    <mat-error *ngIf="registerRePassword.invalid && (registerRePassword.dirty || registerRePassword.touched)" class="alert alert-danger">
+                        <mat-error *ngIf="registerRePassword.errors?.['required']">
+                            Please confirm password.
+                        </mat-error>
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Register Button -->
+                <button mat-raised-button color="accent" class="ml-auto" (click)="register()">Register</button>
+            </form>
+        </mat-tab>
+    </mat-tab-group>

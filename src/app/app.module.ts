@@ -6,7 +6,7 @@ import { SimpleHeaderComponent } from './components/simple-header/simple-header.
 import { TodoComponent } from './components/todo/todo.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialModule } from 'src/material.module';
 import { TodoInputComponent } from './components/todo-input/todo-input.component';
@@ -14,6 +14,8 @@ import { TodoInputComponent } from './components/todo-input/todo-input.component
 import { AppRoutingModule } from './app.routing.module';
 import { routingComponents } from './app.routing.module';
 
+import { HttpClientModule } from '@angular/common/http';
+import { IdentityService } from './services/identity.service';
 
 @NgModule({
   declarations: [
@@ -24,14 +26,16 @@ import { routingComponents } from './app.routing.module';
     routingComponents
   ],
   imports: [
+    HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
     MatTooltipModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [IdentityService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,13 +1,13 @@
 <header class="simple-header">
     <mat-toolbar color="accent" class="toolbar">
-        <a href="#" mat-button>
+        <a href="#" mat-button routerLink="/">
             <h1>{{ title }}</h1>
         </a>
         <p>
-            <a mat-button>
+            <a mat-button routerLink="/identity" [queryParams]="{ tabIndex: 1}">
                 Register
             </a>
-            <a mat-button>
+            <a mat-button routerLink="/identity" [queryParams]="{ tabIndex: 0}">
                 Login
                 <mat-icon>login</mat-icon>
             </a>
