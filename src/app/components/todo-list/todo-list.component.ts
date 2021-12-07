@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Todo } from 'src/app/models/todo.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TodoService } from 'src/app/services/todo.service';
 
 @Component({
   selector: 'app-todo-list',
@@ -8,117 +10,83 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./todo-list.component.scss']
 })
 export class TodoListComponent implements OnInit {
-  todos:Todo[];
-  baseUrl: string;
+  todos:Todo[] | undefined | null;
   isLoading:boolean = false;
   hideDone:boolean = false;
   snackBarOptions = {
     duration: 3000
   }
 
-  constructor(private _snackBar: MatSnackBar) {
+  constructor(
+      private _snackBar: MatSnackBar, 
+      private _todo_service: TodoService,
+      private _router: Router
+    ) {
+  }
+
+  async ngOnInit(): Promise<void|boolean> {
+    if (!sessionStorage.getItem("logged-in")) {
+      return this._router.navigate(['identity'])
+    }
     this.todos = []
-    this.baseUrl = "http://localhost:9090/api/v1"
+    debugger
+    // BUG: check why the list is cached
+    await this.getAllItems()
+  }
+  ngOnDestroy() {
+    this.todos = [];
+    console.log("TODOs Cleared");
   }
 
   async editItem(todoItem:Todo): Promise<void> {
     this.isLoading = true
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    var body = JSON.stringify(todoItem);
-
-    var requestOptions = {
-      method: 'PATCH',
-      headers: myHeaders,
-      body: body
-    };
-
-    let route = `/todos/${todoItem._id}`
-    let res = await fetch(this.baseUrl + route, requestOptions)
-      .then(response => response.json())
-      .catch(error => {
+    this._todo_service.update(todoItem)
+      .subscribe(res => {
+        this._snackBar.open(res.message, 'Dismiss', this.snackBarOptions);
         this.isLoading = false
-        this._snackBar.open(error, 'Dismiss');
-      });
-
-      if (res.code != 200) {
-        this._snackBar.open(res.message, 'Dismiss');
-        return console.error(res)
-      }
-      this.isLoading = false
+      }, error => {
+        this._snackBar.open(error, 'Dismiss', this.snackBarOptions);
+        this.isLoading = false
+      })
   }
 
   async newItemEvent(newItem:Todo): Promise<void> {
     this.isLoading = true
-
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    var body = JSON.stringify(newItem);
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: body
-    };
-
-    let res = await fetch(this.baseUrl + "/todos", requestOptions)
-      .then(response => response.json())
-      .catch(error => {
+    this._todo_service.insert(newItem).subscribe(
+      res => {
+        this.todos?.push(res.data)
         this.isLoading = false
-        console.error('error', error)
-      });
-
-    if (res.code != 201) {
-      this.isLoading = false
-      this._snackBar.open(res.message, 'Dismiss');
-    }
-    this.isLoading = false
-    this.todos.push(res.data)
-  }
-
-  async ngOnInit(): Promise<void> {
-    await this.getAllItems()
+      },
+      err => {
+        this._snackBar.open(err, "Dismiss", this.snackBarOptions)
+        this.isLoading = false
+      }
+    )
   }
 
   private async getAllItems() {
     this.isLoading = true
-    let route = "/todos"
-    let res = await fetch(this.baseUrl + route)
-      .then(response => response.json())
-      .catch(error => {
-        this._snackBar.open(error, 'Dismiss');
+    this._todo_service.getAll()
+      .subscribe(res => {
+        this.todos = res.data
+        this.isLoading = false
+      }, err => {
+        this._snackBar.open(err, 'Dismiss')
+        this.isLoading = false
       })
-
-    if (res.code != 200) {
-      this.isLoading = false
-      this._snackBar.open(res.message, 'Dismiss', this.snackBarOptions);
-      return console.error(res)
-    }
-    this.todos = res.data
-    this.isLoading = false
   }
 
   async deleteItem(_id:string): Promise<void> {
     this.isLoading = true
 
-    var requestOptions = {
-      method: 'DELETE'
-    };
-
-    let res = await fetch(`${this.baseUrl}/todos/${_id}`, requestOptions)
-      .then(response => response.json())
-      .catch(err => {
+    this._todo_service.delete(_id)
+      .subscribe(res => {
+        this.todos = this.todos?.filter((todo: Todo) => todo._id != _id );
+        this._snackBar.open(res.message, 'Dismiss', this.snackBarOptions);
         this.isLoading = false
-        this._snackBar.open(err, 'Dismiss');
+      }, error => {
+        this._snackBar.open(error, 'Dismiss', this.snackBarOptions);
+        this.isLoading = false
       })
-
-    if (res.code != 200) {
-      this.isLoading = false
-      this._snackBar.open(res.message, 'Dismiss');
-      return
-    }
-
-    this.todos = this.todos.filter(todo => todo._id != _id );
-    this.isLoading = false
   }
 }

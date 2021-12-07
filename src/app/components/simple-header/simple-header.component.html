@@ -4,12 +4,17 @@
             <h1>{{ title }}</h1>
         </a>
         <p>
-            <a mat-button routerLink="/identity" [queryParams]="{ tabIndex: 1}">
+            <a *ngIf="!isLoggedIn" mat-button routerLink="/identity" [queryParams]="{ tabIndex: 1}">
                 Register
             </a>
-            <a mat-button routerLink="/identity" [queryParams]="{ tabIndex: 0}">
+            <a *ngIf="!isLoggedIn" mat-button routerLink="/identity" [queryParams]="{ tabIndex: 0}">
                 Login
                 <mat-icon>login</mat-icon>
+            </a>
+            <!-- routerLink="/logout" -->
+            <a mat-button *ngIf="isLoggedIn" (click)="logout()">
+                Logout
+                <mat-icon>logout</mat-icon>
             </a>
         </p>
     </mat-toolbar>

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-simple-header',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SimpleHeaderComponent implements OnInit {
   title: string = "Simple Todo"
-  constructor() { }
+
+  @Input() isLoggedIn: boolean = true
+  constructor(private _router: Router) { }
 
   ngOnInit(): void {
   }
 
+  logout() {
+    sessionStorage.removeItem('jwt-token')
+    sessionStorage.setItem('logged-in', 'false')
+    this._router.navigate(['/identity'])
+  }
 }

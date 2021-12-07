@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { IdentityService } from 'src/app/services/identity.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-identity',
@@ -17,7 +16,11 @@ export class IdentityComponent implements OnInit {
     private _identityService: IdentityService,
     private _snackBar: MatSnackBar,
     private router: Router
-  ) { }
+  ) {
+    this._isLoggedIn = JSON.parse(sessionStorage.getItem('logged-in') || 'false')
+  }
+
+  _isLoggedIn: Boolean | null
 
   // Login Form
   loginEmail = new FormControl('', [
@@ -47,24 +50,28 @@ export class IdentityComponent implements OnInit {
   ])
   tabIndex = 0
 
-  ngOnInit(): void {
+  ngOnInit() {
+    sessionStorage.clear()
     this.route.queryParams
       .subscribe(params => {
         this.tabIndex = parseInt(params['tabIndex']) || 0;
       }
     );
+    if (this._isLoggedIn) {
+      this.router.navigate([''])
+    }
   }
 
   login() {
     if (this.loginEmail.invalid || this.loginPassword.invalid) {
-      this._snackBar.open("Please make sure the for is valid.", "Dismiss")
+      this._snackBar.open("Please make sure the for is valid.", "Dismiss", {duration: 3000})
       return
     }
 
     this._identityService.login(this.loginEmail.value, this.loginPassword.value)
       .subscribe(response => {
-        this._snackBar.open(`${response!.code} ${response!.message}` , "Dismiss")
-        this.router.navigate(['/todos'])
+        this._snackBar.open(`${response!.code} ${response!.message}` , "Dismiss", {duration: 3000})
+        this.router.navigate([''])
       }, error => {
         this._snackBar.open(error , "Dismiss")
       })

@@ -1,7 +1,9 @@
+import { Todo } from "./todo.model";
+
 export interface IApiResponse {
-    code: Number,
-    error_code: String,
-    message: String,
-    _message: String,
-    data: Object | null | ''
+    code: number,
+    error_code: string,
+    message: string,
+    _message: string,
+    data: any
 }

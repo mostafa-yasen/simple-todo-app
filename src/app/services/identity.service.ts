@@ -24,6 +24,7 @@ export class IdentityService {
                 if (token) {
                     sessionStorage.setItem('jwt-token', token)
                     sessionStorage.setItem('logged-in', 'true')
+                    sessionStorage.setItem('user-email', response.body?.data.email)
                 } else {
                     sessionStorage.setItem('logged-in', 'false')
                 }

@@ -3,8 +3,8 @@
         (newItem)="newItemEvent($event)"
     ></app-todo-input>
     <button
-        *ngIf="todos.length > 0"
-        class="ml-auto d-inline-block"
+        *ngIf="todos!.length > 0"
+        class="full-width"
         mat-button
         [color]="hideDone? 'accent' : ''"
         (click)="hideDone = !hideDone"
@@ -25,7 +25,7 @@
         [hideDone]="hideDone"
     ></app-todo>
 
-    <div class="emptyState" *ngIf="!todos.length">
+    <div class="emptyState" *ngIf="!todos?.length">
         <mat-icon color="accent" class="icon">check_circle_outline</mat-icon>
         Hooray! all is done. Go take some rest.
     </div>

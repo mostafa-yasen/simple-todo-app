@@ -16,6 +16,7 @@ import { routingComponents } from './app.routing.module';
 
 import { HttpClientModule } from '@angular/common/http';
 import { IdentityService } from './services/identity.service';
+import { TodoService } from './services/todo.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { IdentityService } from './services/identity.service';
     MatTooltipModule,
     AppRoutingModule
   ],
-  providers: [IdentityService],
+  providers: [IdentityService, TodoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
